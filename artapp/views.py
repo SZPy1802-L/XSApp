@@ -4,7 +4,6 @@ from django.shortcuts import render
 # Create your views here.
 
 
-
 def index(request):
     # 请求路径和请求方法
     print(request.path,request.method)
@@ -19,3 +18,4 @@ def index(request):
     # return HttpResponse('<h1>您好</h1>')
     # return JsonResponse({'name':'Disen'})
     return render(request,'art/list.html',context = {'name':'Disen','age':20})
+    # 第一次修改注释
