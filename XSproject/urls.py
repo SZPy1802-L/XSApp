@@ -15,8 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url,include
 from django.contrib import admin
-import artapp
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^art/',include('artapp.urls', namespace='artapp')),
+    url(r'^art/', include('artapp.urls', namespace='artapp')),
 ]
