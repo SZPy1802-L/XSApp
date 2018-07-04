@@ -8,6 +8,7 @@ class ArtTag(models.Model):
     add_time = models.DateTimeField(verbose_name="添加的时间",auto_now_add=True)
     modify_time =models.TimeField(verbose_name="最后修改时间",auto_now=True)
 
+
 # 文章
 class Art(models.Model):
     title = models.CharField(max_length=50,unique=True,verbose_name='文章名')

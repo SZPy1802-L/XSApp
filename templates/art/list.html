@@ -54,7 +54,7 @@
     </style>
 </head>
 <body>
-    <h1>文章列表</h1>
+    <h1>文章列表</h1><a href="/art/edit_art">新增文章</a>
     <div id="tag_nav">
         <b>标签分类:</b>
         <a href="/art/" class="tag_all">所有</a>
@@ -64,20 +64,26 @@
     </div>
     <div>
         <ul id = 'art_container'>
+            {% for art in arts %}
             <li>
                 <dl>
                     <dt>
-                        <img src="http://img.17k.com/images/bookcover/2017/13364/66/2672823-1506424962000.jpg" alt=""
+                        <img src="{{ art.img }}" alt=""
                         width="200" height="240">
                     </dt>
                     <dd>
-                        <label>总裁的天价秘书</label>
-                        <label>作者: xxx </label>
-                        <label>分类: 现代小说 </label>
+                        <label>{{ art.title }}</label>
+                        <label>作者:{{ art.author }}</label>
+                        {% for tag in tags %}
+                            {% if tag.id == art.tag_id %}
+                                <label>分类:{{ tag.title }} </label>
+                            {% endif %}
+                        {% endfor %}
                     </dd>
                     <dd><button>阅读</button></dd>
                 </dl>
             </li>
+             {% endfor %}
             <li>
                 <dl>
                     <dt>

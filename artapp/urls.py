@@ -8,5 +8,6 @@ urlpatterns = [
     url('^$', index),
     url(r'^tags$',add_tags),
     url(r'^delete_tag$',delete_tag),
-    url(r'^list_tags$',list_tags)
+    url(r'^list_tags$',list_tags),
+    url(r'^edit_art$',edit_art)
 ]

@@ -56,5 +56,32 @@ def list_tags(request):
                   context={'tags':ArtTag.objects.all()})
 
 
+def edit_art(request):
+    if request.method == 'GET':
+
+        return render(request,'art/edit_art.html')
+
+
+    else:
+        art_tag = ArtTag()
+        art = Art()
+        art.title = request.POST.get('title')
+        art.summary = request.POST.get('summary')
+        art.author = request.POST.get('author')
+        art.img = request.POST.get('img')
+        tag = request.POST.get('tag')
+        tag_id = ArtTag.objects.filter(title = tag).first()
+        if tag_id:
+            print(tag_id)
+            art.tag_id = tag_id.id
+            art.save()
+            return redirect('/art')
+        else:
+            msg = '分类不正确,请重试'
+            return render(request, 'art/edit_art.html',{'msg':msg})
+
+
+
+
 
 
