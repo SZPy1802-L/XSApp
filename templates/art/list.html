@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,6 +24,7 @@
         }
 
         #art_container{
+            {#去除列表的圆点#}
             list-style: none;
         }
 
@@ -33,6 +35,7 @@
 
         #art_container li img:hover{
             box-shadow: 2px 2px 5px dodgerblue;
+            {#为图片添加动画#}
             transform: scale3d(1.05,1.05,1.05);
             transition: transform ease-in-out 1s;
         }
@@ -66,132 +69,31 @@
     {% for tag in tags %}
         <a href="/art/?tag={{ tag.id }}">{{ tag.title }}</a>
     {% endfor %}
+    <a href="{% url 'artapp:upload_file' %}"><button>上传文件</button></a>
 </div>
 
 <ul id="art_container">
+    {% for art in arts %}
     <li>
         <dl>
             <dt>
-                <img src="http://img.duanwenxue.com/uploads/userup/670099/15250E162-I42.jpg"
+                <img src="{% static art.img.name %}"
                      width="200" height="240">
             </dt>
             <dd>
-                <label>护妈狂宝:总裁的天价秘书</label>
-                <label>作者： xxx </label>
-                <label>分类:  现代小说</label>
+                <label>{{ art.title }}</label>
+                <label>作者: {{ art.author }}</label>
+                {% for tag in tags %}
+                    {% if tag.id  == art.id %}
+                        <label>分类: {{ tag.title }}</label>
+                    {% endif %}
+                {% endfor %}
+
             </dd>
             <dd><button>阅读</button></dd>
         </dl>
     </li>
-
-     <li>
-        <dl>
-            <dt>
-                <img src="http://img.duanwenxue.com/uploads/userup/670099/15250E162-I42.jpg"
-                     width="200" height="240">
-            </dt>
-            <dd>
-                <label>护妈狂宝:总裁的天价秘书</label>
-                <label>作者： xxx </label>
-                <label>分类:  现代小说</label>
-            </dd>
-            <dd><button>阅读</button></dd>
-        </dl>
-    </li>
-
-     <li>
-        <dl>
-            <dt>
-                <img src="http://img.duanwenxue.com/uploads/userup/670099/15250E162-I42.jpg"
-                     width="200" height="240">
-            </dt>
-            <dd>
-                <label>护妈狂宝:总裁的天价秘书</label>
-                <label>作者： xxx </label>
-                <label>分类:  现代小说</label>
-            </dd>
-            <dd><button>阅读</button></dd>
-        </dl>
-    </li>
-
-
-     <li>
-        <dl>
-            <dt>
-                <img src="http://img.duanwenxue.com/uploads/userup/670099/15250E162-I42.jpg"
-                     width="200" height="240">
-            </dt>
-            <dd>
-                <label>护妈狂宝:总裁的天价秘书</label>
-                <label>作者： xxx </label>
-                <label>分类:  现代小说</label>
-            </dd>
-            <dd><button>阅读</button></dd>
-        </dl>
-    </li>
-
-
-     <li>
-        <dl>
-            <dt>
-                <img src="http://img.duanwenxue.com/uploads/userup/670099/15250E162-I42.jpg"
-                     width="200" height="240">
-            </dt>
-            <dd>
-                <label>护妈狂宝:总裁的天价秘书</label>
-                <label>作者： xxx </label>
-                <label>分类:  现代小说</label>
-            </dd>
-            <dd><button>阅读</button></dd>
-        </dl>
-    </li>
-
-
-     <li>
-        <dl>
-            <dt>
-                <img src="http://img.duanwenxue.com/uploads/userup/670099/15250E162-I42.jpg"
-                     width="200" height="240">
-            </dt>
-            <dd>
-                <label>护妈狂宝:总裁的天价秘书</label>
-                <label>作者： xxx </label>
-                <label>分类:  现代小说</label>
-            </dd>
-            <dd><button>阅读</button></dd>
-        </dl>
-    </li>
-
-
-     <li>
-        <dl>
-            <dt>
-                <img src="http://img.duanwenxue.com/uploads/userup/670099/15250E162-I42.jpg"
-                     width="200" height="240">
-            </dt>
-            <dd>
-                <label>护妈狂宝:总裁的天价秘书</label>
-                <label>作者： xxx </label>
-                <label>分类:  现代小说</label>
-            </dd>
-            <dd><button>阅读</button></dd>
-        </dl>
-    </li>
-
-     <li>
-        <dl>
-            <dt>
-                <img src="http://img.duanwenxue.com/uploads/userup/670099/15250E162-I42.jpg"
-                     width="200" height="240">
-            </dt>
-            <dd>
-                <label>护妈狂宝:总裁的天价秘书</label>
-                <label>作者： xxx </label>
-                <label>分类:  现代小说</label>
-            </dd>
-            <dd><button>阅读</button></dd>
-        </dl>
-    </li>
+    {% endfor %}
 
 </ul>
 

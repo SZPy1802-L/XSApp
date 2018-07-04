@@ -1,5 +1,9 @@
+import os
+
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
+
+from XSproject import settings
 from artapp.models import ArtTag, Art
 
 
@@ -8,7 +12,8 @@ def index(requset):
     # 返回渲染模板
     return render(requset,'art/list.html',
                   context={'arts': Art.objects.all(),
-                           'tags': ArtTag.objects.all()})
+                           'tags': ArtTag.objects.all(),
+                           })
 
 
 def add_tags(request):
@@ -51,3 +56,27 @@ def list_tags(request):
                   context={
                     'tags':   ArtTag.objects.all()
                   })
+
+# 上传文件
+def upload_file(request):
+    if request.method == 'GET':
+        return render(request, 'art/upload.html',{'arttags':ArtTag.objects.all()})
+    else:
+        # post提交上传文章
+        img = request.FILES.get('img')
+        summary = request.POST.get('summary')
+        author = request.POST.get('author')
+        title = request.POST.get('title')
+        tag = request.POST.get('tag')
+        print(tag)
+        arttag = ArtTag.objects.filter(title=tag).first()
+        # 保存到数据库
+        art = Art()
+        art.title = title
+        art.author = author
+        art.summary = summary
+        art.img = img
+        art.tag_id = arttag.id
+        art.save()
+        return redirect('/art')
+

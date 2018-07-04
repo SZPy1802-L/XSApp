@@ -23,9 +23,7 @@ class Art(models.Model):
     publish_time = models.DateTimeField(auto_now_add=True, verbose_name='发布时间')
 
     # 文章类型(一端)
-    tag = models.ForeignKey(ArtTag,
-                            on_delete=models.SET_NULL,
-                            null=True)
+    tag = models.ForeignKey(ArtTag,on_delete=models.SET_NULL,null=True)
 
 
 # 文章小节模型
