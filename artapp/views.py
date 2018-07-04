@@ -13,7 +13,7 @@ def index(requset):
         pageNum = 1  # 从第一页开始
 
     # 如果tag_id 不存在时，则表示为所有（即不分类型）
-    if not tag_id:
+    if (not tag_id) or (tag_id == '0'):
         # 查询所有文章
         arts = Art.objects.all()
         tag_id = 0
@@ -31,7 +31,7 @@ def index(requset):
                   context={'arts': page.object_list,
                            'page_range': paginator.page_range,
                            'page': page,
-                           'tag_id': tag_id,
+                           'tag_id': int(tag_id),
                            'tags': ArtTag.objects.all()})
 
 

@@ -55,6 +55,27 @@
             clear: both;
         }
 
+        .pagination{
+            background-color: lightgoldenrodyellow;
+            padding: 5px;
+            text-align: center;
+            font-size: 1.2em;
+        }
+
+        .pagination a{
+            text-decoration: none;
+            padding: 5px 10px;
+            background-color: floralwhite;
+        }
+
+        .pagination a:hover{
+            background-color: dodgerblue;
+        }
+
+        .pagination .active{
+            background-color: palevioletred;
+        }
+
 
     </style>
 </head>
@@ -62,9 +83,9 @@
 <h1>文章列表</h1>
 <div id="tag_nav">
     <b>标签分类:</b>
-    <a href="/art/" class="tag_all">所有</a>
+    <a href="/art/" {% if tag_id == 0 %} class="tag_all" {% endif %}>所有</a>
     {% for tag in tags %}
-        <a href="/art/?tag={{ tag.id }}">{{ tag.title }}</a>
+        <a  {% if tag.id == tag_id %} class="tag_all" {% endif %}  href="/art/?tag={{ tag.id }}">{{ tag.title }}</a>
     {% endfor %}
 </div>
 
@@ -90,16 +111,21 @@
 </ul>
 
 <div class="pagination">
-    <a href="">上一页</a>
+    {% if page.has_previous %}
+         <a href="/art/?tag={{ tag_id }}&page={{ page.previous_page_number }}">上一页</a>
+    {% endif %}
+
     {% for num in page_range %}
         {% if num == page.number %}
-            <a href="/art/?tag={{ tag_id }}&page={{ num }}">{{ num }}</a>
-            {% else %}
             <a class="active" href="/art/?tag={{ tag_id }}&page={{ num }}">{{ num }}</a>
+            {% else %}
+            <a href="/art/?tag={{ tag_id }}&page={{ num }}">{{ num }}</a>
         {% endif %}
     {% endfor %}
 
-    <a href="">下一页</a>
+    {% if page.has_next %}
+         <a href="/art/?tag={{ tag_id }}&page={{ page.next_page_number }}">下一页</a>
+    {% endif %}
 </div>
 
 </body>
