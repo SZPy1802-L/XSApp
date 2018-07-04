@@ -13,7 +13,7 @@ def index(requset):
         pageNum = 1  # 从第一页开始
 
     # 如果tag_id 不存在时，则表示为所有（即不分类型）
-    if not tag_id:
+    if (not tag_id) or (tag_id == '0'):
         # 查询所有文章
         arts = Art.objects.all()
         tag_id = 0
@@ -24,6 +24,11 @@ def index(requset):
     paginator = Paginator(arts, 4)
 
     # 获取第 pageNum页
+    # 判断当前的页码是否大于最大页数
+    if int(pageNum) > paginator.num_pages:
+        pageNum = paginator.num_pages
+    elif int(pageNum) <= 0:  # 判断页码是否小于等于0
+        pageNum = 1
     page = paginator.page(pageNum)
 
     # 返回渲染模板
@@ -31,7 +36,7 @@ def index(requset):
                   context={'arts': page.object_list,
                            'page_range': paginator.page_range,
                            'page': page,
-                           'tag_id': tag_id,
+                           'tag_id': int(tag_id),
                            'tags': ArtTag.objects.all()})
 
 
