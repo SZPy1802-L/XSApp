@@ -1,13 +1,37 @@
+from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from artapp.models import ArtTag, Art
 
 
 def index(requset):
+    # 获取请求参数中的tag标签分类的id
+    tag_id = requset.GET.get('tag')
+    pageNum = requset.GET.get('page')
+
+    if not pageNum:
+        pageNum = 1  # 从第一页开始
+
+    # 如果tag_id 不存在时，则表示为所有（即不分类型）
+    if not tag_id:
+        # 查询所有文章
+        arts = Art.objects.all()
+        tag_id = 0
+    else:
+        arts = Art.objects.filter(tag_id=tag_id).all()
+
+    # 分页器Paginator
+    paginator = Paginator(arts, 4)
+
+    # 获取第 pageNum页
+    page = paginator.page(pageNum)
 
     # 返回渲染模板
-    return render(requset,'art/list.html',
-                  context={'arts': Art.objects.all(),
+    return render(requset, 'art/list.html',
+                  context={'arts': page.object_list,
+                           'page_range': paginator.page_range,
+                           'page': page,
+                           'tag_id': tag_id,
                            'tags': ArtTag.objects.all()})
 
 

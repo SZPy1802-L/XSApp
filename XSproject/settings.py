@@ -122,7 +122,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # 静态文件存放的位置
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # 多媒体文件（图片、视频、音频、表格等文件）
-MEDIA_ROOT = os.path.join(STATIC_ROOT, 'art_ups')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/art_ups')

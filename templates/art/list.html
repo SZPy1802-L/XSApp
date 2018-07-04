@@ -69,131 +69,38 @@
 </div>
 
 <ul id="art_container">
+    {% for art in arts %}
+
     <li>
         <dl>
             <dt>
-                <img src="http://img.duanwenxue.com/uploads/userup/670099/15250E162-I42.jpg"
+                <img src="/static/art_ups/{{ art.img }}"
                      width="200" height="240">
             </dt>
             <dd>
-                <label>护妈狂宝:总裁的天价秘书</label>
-                <label>作者： xxx </label>
-                <label>分类:  现代小说</label>
+                <label>{{ art.title }}</label>
+                <label>作者： {{ art.author }} </label>
+                <label>分类:  {{ art.tag.title }}</label>
             </dd>
             <dd><button>阅读</button></dd>
         </dl>
     </li>
 
-     <li>
-        <dl>
-            <dt>
-                <img src="http://img.duanwenxue.com/uploads/userup/670099/15250E162-I42.jpg"
-                     width="200" height="240">
-            </dt>
-            <dd>
-                <label>护妈狂宝:总裁的天价秘书</label>
-                <label>作者： xxx </label>
-                <label>分类:  现代小说</label>
-            </dd>
-            <dd><button>阅读</button></dd>
-        </dl>
-    </li>
-
-     <li>
-        <dl>
-            <dt>
-                <img src="http://img.duanwenxue.com/uploads/userup/670099/15250E162-I42.jpg"
-                     width="200" height="240">
-            </dt>
-            <dd>
-                <label>护妈狂宝:总裁的天价秘书</label>
-                <label>作者： xxx </label>
-                <label>分类:  现代小说</label>
-            </dd>
-            <dd><button>阅读</button></dd>
-        </dl>
-    </li>
-
-
-     <li>
-        <dl>
-            <dt>
-                <img src="http://img.duanwenxue.com/uploads/userup/670099/15250E162-I42.jpg"
-                     width="200" height="240">
-            </dt>
-            <dd>
-                <label>护妈狂宝:总裁的天价秘书</label>
-                <label>作者： xxx </label>
-                <label>分类:  现代小说</label>
-            </dd>
-            <dd><button>阅读</button></dd>
-        </dl>
-    </li>
-
-
-     <li>
-        <dl>
-            <dt>
-                <img src="http://img.duanwenxue.com/uploads/userup/670099/15250E162-I42.jpg"
-                     width="200" height="240">
-            </dt>
-            <dd>
-                <label>护妈狂宝:总裁的天价秘书</label>
-                <label>作者： xxx </label>
-                <label>分类:  现代小说</label>
-            </dd>
-            <dd><button>阅读</button></dd>
-        </dl>
-    </li>
-
-
-     <li>
-        <dl>
-            <dt>
-                <img src="http://img.duanwenxue.com/uploads/userup/670099/15250E162-I42.jpg"
-                     width="200" height="240">
-            </dt>
-            <dd>
-                <label>护妈狂宝:总裁的天价秘书</label>
-                <label>作者： xxx </label>
-                <label>分类:  现代小说</label>
-            </dd>
-            <dd><button>阅读</button></dd>
-        </dl>
-    </li>
-
-
-     <li>
-        <dl>
-            <dt>
-                <img src="http://img.duanwenxue.com/uploads/userup/670099/15250E162-I42.jpg"
-                     width="200" height="240">
-            </dt>
-            <dd>
-                <label>护妈狂宝:总裁的天价秘书</label>
-                <label>作者： xxx </label>
-                <label>分类:  现代小说</label>
-            </dd>
-            <dd><button>阅读</button></dd>
-        </dl>
-    </li>
-
-     <li>
-        <dl>
-            <dt>
-                <img src="http://img.duanwenxue.com/uploads/userup/670099/15250E162-I42.jpg"
-                     width="200" height="240">
-            </dt>
-            <dd>
-                <label>护妈狂宝:总裁的天价秘书</label>
-                <label>作者： xxx </label>
-                <label>分类:  现代小说</label>
-            </dd>
-            <dd><button>阅读</button></dd>
-        </dl>
-    </li>
-
+    {% endfor %}
 </ul>
+
+<div class="pagination">
+    <a href="">上一页</a>
+    {% for num in page_range %}
+        {% if num == page.number %}
+            <a href="/art/?tag={{ tag_id }}&page={{ num }}">{{ num }}</a>
+            {% else %}
+            <a class="active" href="/art/?tag={{ tag_id }}&page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    <a href="">下一页</a>
+</div>
 
 </body>
 </html>

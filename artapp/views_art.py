@@ -12,10 +12,11 @@ def art_edit(request):
                       'art/edit_art.html',
                       {'tags': ArtTag.objects.all()})
     else:  # post请求
-        title = request.POST.get('title')
-        author = request.POST.get('author')
-        summary = request.POST.get('summary')
-        tag_id = request.POST.get('tag')
+        # strip()去除两边空格
+        title = request.POST.get('title').strip()
+        author = request.POST.get('author').strip()
+        summary = request.POST.get('summary').strip()
+        tag_id = request.POST.get('tag').strip()
 
         # 获取上传的文件
         artImg:InMemoryUploadedFile = request.FILES.get('artImg')
