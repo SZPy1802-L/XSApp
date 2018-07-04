@@ -24,6 +24,11 @@ def index(requset):
     paginator = Paginator(arts, 4)
 
     # 获取第 pageNum页
+    # 判断当前的页码是否大于最大页数
+    if int(pageNum) > paginator.num_pages:
+        pageNum = paginator.num_pages
+    elif int(pageNum) <= 0:  # 判断页码是否小于等于0
+        pageNum = 1
     page = paginator.page(pageNum)
 
     # 返回渲染模板
