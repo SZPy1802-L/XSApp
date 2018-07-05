@@ -13,8 +13,9 @@ class UserProfile(models.Model):
                              verbose_name='手机号', null=True)
 
     # upload_to 指定的路径是相对于settings.py中设置MEDIA_ROOT的路径
-    photo = models.ImageField(upload_to='users',
-                              verbose_name='头像', null=True)
+    # photo = models.ImageField(upload_to='users',
+    #                           verbose_name='头像', null=True)
+    photo = models.CharField(max_length=100, null=True, blank=True)
 
     # 注册时间
     regist_time = models.DateTimeField(auto_now_add=True,

@@ -23,8 +23,7 @@ def regist(request):
 
         # 创建UserForm的实例对象
         # 要求：表单中指定的字段名必须和model模型中字段名保持一致
-        userForm = UserForm(request.POST,
-                            request.FILES)
+        userForm = UserForm(request.POST)
 
         # 保存之前要验证数据
         if userForm.is_valid():  # 验证通过

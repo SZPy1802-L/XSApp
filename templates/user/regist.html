@@ -59,7 +59,11 @@
                         src="{% static 'base/images/default.jpg' %}"
                         width="120" height="120"
                         onclick="uploadFile.click()">
+                <!-- ajax上传的图片后，返回的图片路径需要保存到用户表中 -->
+                <input type="hidden" name="photo" id="photo">
             </div>
+
+
 
             <div class="form-group">
                 <button class="btn btn-primary">注册</button>
@@ -103,6 +107,9 @@
 
                     //显示上传之后的图片
                     $('#preImg').attr('src', '/static/ups/'+respData.path);
+
+                    // 将上传成功后的图片路径（在服务器的路径）
+                    $('#photo').val(respData.path)
                 }
             }
 
