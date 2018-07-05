@@ -10,6 +10,7 @@ from userapp.forms import UserForm
 from userapp.models import UserProfile
 from json import loads
 
+
 # Create your views here.
 def regist(request):
     if request.method == 'GET':
@@ -23,8 +24,7 @@ def regist(request):
 
         # 创建UserForm的实例对象
         # 要求：表单中指定的字段名必须和model模型中字段名保持一致
-        userForm = UserForm(request.POST,
-                            request.FILES)
+        userForm = UserForm(request.POST)
 
         # 保存之前要验证数据
         if userForm.is_valid():  # 验证通过
@@ -67,3 +67,37 @@ def upload(request):
     return JsonResponse({'status': 'ok',
                          'path': 'users/'+imgFileName})
 
+
+def login(request):
+    errors = []
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        # 1. 根据用户名查找用户信息
+        rs = UserProfile.objects.filter(username=username)
+        if not rs.exists():
+            errors.append(username+' 用户不存在')
+        else:
+            user:UserProfile = rs.first()  # 从查询结果中读取第一个记录（对象 ）
+            if not user.varify_passwd(password):
+                # 密码不一样
+                errors.append('口令错误，请重试！')
+            else:
+                # 登录成功
+                # 向session中写入 user唯一标识
+                request.session['user_id'] = user.id
+
+                return redirect('/art/')
+
+    # 用户登录
+    return render(request,
+                  'user/login.html',
+                  {'errors': errors})
+
+
+def logout(request):
+    # 清除session
+    request.session.flush()
+
+    return redirect('/art/')
