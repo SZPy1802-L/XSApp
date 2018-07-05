@@ -7,6 +7,5 @@ from userapp import views
 urlpatterns = [
     # 声明注册请求
     url(r'^regist', views.regist),
-
-
+    url(r'^upload', views.upload),
 ]
