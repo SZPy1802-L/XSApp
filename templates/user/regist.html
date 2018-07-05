@@ -2,7 +2,66 @@
 
 {% block content %}
 
-    <div class="user">
+    <div class="user container">
         <h1>用户注册页面</h1>
+
+        {% if errors %}
+            <div style="color:red">
+                <ul>
+                    {% for _,msgs in errors.items %}
+                        <li>{{ msgs.0.message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <form class="form-horizontal"
+              action="/user/regist"
+              method="post"
+              enctype="multipart/form-data">
+
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="col-md-3">用户名</label>
+                <input class="form-control"
+                       name="username"
+                       placeholder="输入字母、数字组成的用户名">
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">口令</label>
+                <input class="form-control"
+                       type="password"
+                       name="password"
+                       placeholder="输入用户登录的密码">
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">确认口令</label>
+                <input class="form-control"
+                       type="password"
+                       name="password2"
+                       placeholder="确认密码">
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">电话</label>
+                <input class="form-control"
+                       name="phone"
+                       placeholder="确认密码">
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-2 col-md-3">头像</label>
+                <input class="form-control col-xs-6 col-md-6"
+                       type="file"
+                       name="photo" >
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-primary">注册</button>
+            </div>
+
+        </form>
     </div>
 {% endblock %}
