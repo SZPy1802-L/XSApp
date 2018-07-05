@@ -45,7 +45,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -130,3 +130,6 @@ STATICFILES_DIRS = [
 
 # 多媒体文件（图片、视频、音频、表格等文件）
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/ups')
+
+
+# 配置session方案(默认存在数据库中)
