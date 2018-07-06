@@ -10,7 +10,7 @@ from artapp.models import ArtTag, Art
 
 
 # 声明文章相关请求的处理函数
-from artapp.utils import cache_page
+from artapp.utils import cache_page, rds, top5Art
 
 
 def art_edit(request):
@@ -78,10 +78,22 @@ def search(request):
 
 
 # 将页面缓存到redis中
-@cache_page(60)
+@cache_page(5)
 def show(request):
     id = request.GET.get('id')  # 请求参数中的数据，str类型
     print('-- show id--', id)
     art = Art.objects.get(id=id)
 
-    return render(request, 'art/art_info.html', {'art':art})
+    # 修改文章的浏览次数
+    art.counter += 1
+    art.save()
+
+    # redis数据存储（非cache）
+    # 每次阅读都累加
+    rds.zincrby('Rank-Art', id)
+
+    return render(request,
+                  'art/art_info.html',
+                  {'art': art,
+                   'top_arts': top5Art()})
+
