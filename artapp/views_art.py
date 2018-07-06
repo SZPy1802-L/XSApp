@@ -4,13 +4,14 @@ from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, render_to_response
 from django.core.cache import cache  # django缓存函数
-from django.views.decorators.cache import cache_page
 from django.template import loader  # 导入模块加载器， 可以渲染模板
 
 from artapp.models import ArtTag, Art
 
 
 # 声明文章相关请求的处理函数
+from artapp.utils import cache_page
+
 
 def art_edit(request):
     if request.method == 'GET':
@@ -77,25 +78,10 @@ def search(request):
 
 
 # 将页面缓存到redis中
-# @cache_page(10)
+@cache_page(60)
 def show(request):
     id = request.GET.get('id')  # 请求参数中的数据，str类型
     print('-- show id--', id)
+    art = Art.objects.get(id=id)
 
-    # 1. 先从缓存中读取（key设计： Art-1）
-    page = cache.get('Art-%s' % id)
-
-    # 2. 判断缓存中是否存在
-    if not page:
-        time.sleep(5)
-        # 3. 1 查询文章信息
-        art = Art.objects.get(id=id)
-
-        # 3.2 加载模板文件，并渲染成html文本
-        page = loader.render_to_string('art/art_info.html',{'art': art})
-
-        # 4. 将加载完成后的页面存放到cache中
-        # key, value, timeout
-        cache.set('Art-%s' %id, page, 10)
-
-    return HttpResponse(page)
+    return render(request, 'art/art_info.html', {'art':art})
