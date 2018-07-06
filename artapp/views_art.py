@@ -69,3 +69,9 @@ def search(request):
     return render(request,
                   'art/list_search.html',
                   {'arts': arts})
+
+
+def show(request):
+    id = request.GET.get('id')
+    print('-- show id--', id)
+    return render(request, 'art/art_info.html')
