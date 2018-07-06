@@ -74,4 +74,9 @@ def search(request):
 def show(request):
     id = request.GET.get('id')
     print('-- show id--', id)
-    return render(request, 'art/art_info.html')
+
+    # 查询文章信息
+    art = Art.objects.get(id=id)
+
+    return render(request, 'art/art_info.html',
+                  {'art': art})
