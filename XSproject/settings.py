@@ -9,11 +9,13 @@ https://docs.djangoproject.com/en/1.11/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
-
+import logging
 import os
 import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from logging import FileHandler
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # 引入sources root目录
@@ -30,7 +32,6 @@ SECRET_KEY = 'xi)8*x8c@7=(om%+0_2r-tk_fw@eu)=l+*6$70tci&^_-=8$kv'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -80,7 +81,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'XSproject.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
@@ -90,7 +90,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -110,7 +109,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -123,7 +121,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
@@ -140,8 +137,7 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/ups')
 
 # 多媒体文件资源请求的路径位置
-MEDIA_URL = 'ups/'
-
+MEDIA_URL = '/static/ups/'
 
 # 配置session方案(默认存在数据库中)
 
@@ -158,3 +154,41 @@ CACHES = {
     }
 }
 
+# 配置django 日志输出
+LOGGING = {
+    'version': 1.0,
+    'disable_existing_loggers': False,
+    'formatters': {  # 日志格式化
+        'verbose': {
+            'format': '[%(asctime)s %(module)s %(funcName)s] %(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S'
+        },
+        'simple': {
+            'format': '[%(asctime)s %(funcName)s -> %(lineno)s] %(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        }
+    },
+    'handlers': {  # 日志处理器
+        'console': {  # 控制台输出
+            'class': 'logging.StreamHandler',
+            'level': 'DEBUG',
+            'formatter': 'simple'
+        },
+        'file_log': {  # 将日志写入到文件中
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': 'xs_app.log',
+            'level': 'INFO',
+            'formatter': 'verbose',
+        }
+    },
+    'loggers': {  # 日志对象
+        'inf': {
+            'handlers': ['console', 'file_log'],
+            'level': 'INFO',
+            'propagate': True
+        }
+    }
+}
+
+# 获取inf 日志对象
+logger = logging.getLogger('inf')

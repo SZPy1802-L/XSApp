@@ -1,3 +1,4 @@
+import logging
 import time
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db.models import Q
@@ -6,6 +7,7 @@ from django.shortcuts import render, redirect, render_to_response
 from django.core.cache import cache  # django缓存函数
 from django.template import loader  # 导入模块加载器， 可以渲染模板
 
+from XSproject.settings import logger
 from artapp.models import ArtTag, Art
 
 
@@ -81,7 +83,9 @@ def search(request):
 @cache_page(5)
 def show(request):
     id = request.GET.get('id')  # 请求参数中的数据，str类型
-    print('-- show id--', id)
+
+    logger.warning('--当前页面要被缓存5秒---')
+
     art = Art.objects.get(id=id)
 
     # 修改文章的浏览次数

@@ -31,15 +31,17 @@ class Art(models.Model):
     summary = UEditorField(verbose_name='概述',
                            default='',
                            blank=True,
-                           width=800,  # 编辑页面显示的宽度
-                           height=600,  # 编辑页面显示的高度
+                           width=680,  # 编辑页面显示的宽度
+                           height=640,  # 编辑页面显示的高度
                            toolbars='full',  # 工具栏的按钮
                            imagePath='ueditor/images/',  # 上传图片的路径(正文中)
                            filePath='ueditor/files/'  # 上传文件的路径
                            )
     # imgurl = models.CharField(max_length=100)
     img = models.ImageField(upload_to='images',
-                            verbose_name='文章的图片')
+                            verbose_name='文章的图片',
+                            blank=True,  # 内容可以是 空''
+                            null=True)
 
     counter = models.IntegerField(default=0, verbose_name='阅读次数')
     publish_time = models.DateTimeField(auto_now_add=True, verbose_name='发布时间')
