@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'artapp',
     'userapp',
     'DjangoUeditor',
-
+    'djcelery',  # django-celery的应用
 ]
 
 MIDDLEWARE = [
@@ -192,3 +192,33 @@ LOGGING = {
 
 # 获取inf 日志对象
 logger = logging.getLogger('inf')
+
+
+##### Django-Celery配置 #####
+import djcelery
+from celery.schedules import crontab, timedelta
+
+# 装载当前项目中的celery任务
+djcelery.setup_loader()
+
+BROKER_URL = 'redis://127.0.0.1:6379/10'  # 任务中间代理地址－任务队列
+
+# 导入celery任务
+CELERY_IMPORTS = ('artapp.tasks',)
+
+# 设置celery的时区
+CELERY_TIMEZONE = 'Asia/Shanghai'
+
+# 设置celery计划类型
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+
+# 设置定时任务
+CELERYBEAT_SCHEDULE = {
+    u'发送邮件': {
+        'task': 'artapp.tasks.sendMail',
+        'schedule': timedelta(seconds=2),
+        'args': ('610039018@qq.com', '测试'),
+    }
+}
+
+######--- Django-Celery配置 end----- #######
