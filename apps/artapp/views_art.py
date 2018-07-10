@@ -8,6 +8,7 @@ from django.core.cache import cache  # django缓存函数
 from django.template import loader  # 导入模块加载器， 可以渲染模板
 
 from XSproject.settings import logger
+from artapp import tasks
 from artapp.models import ArtTag, Art
 
 
@@ -101,3 +102,16 @@ def show(request):
                   {'art': art,
                    'top_arts': top5Art()})
 
+
+
+def sendMsg(request):
+    # 从GET请求中读取必要的参数
+    to = request.GET.get('to')
+    msg = request.GET.get('msg')
+
+    # 调用发送邮件的任务
+    # delay是task的异步任务调用的函数
+    tasks.sendMail.delay(to, msg)
+
+    return JsonResponse({'status': 'ok',
+                         'msg': '任务已安排'})
